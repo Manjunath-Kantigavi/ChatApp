@@ -17,19 +17,27 @@ const app = express();
 
 const FRONTEND_URL = process.env.FRONTEND_URL || "https://chat-app-gamma-liard.vercel.app";
 
+const allowedOrigins = [
+  FRONTEND_URL,
+  "http://localhost:5173",
+  "http://localhost:3000"
+];
+
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: allowedOrigins,
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
 
+app.options("*", cors());
 
 const server = createServer(app);
 
 export const io = new Server(server, {
   cors: {
-    origin: FRONTEND_URL,
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
+    credentials: true,     
   },
 });
 
@@ -42,11 +50,8 @@ export const getReceiverSocketId = (receiverId) => {
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
-
   const userId = socket.handshake.query.userId;
   if (userId) userSocketMap[userId] = socket.id;
-
-  // broadcast online users to everyone
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
