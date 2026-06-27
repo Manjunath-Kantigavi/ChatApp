@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
-import BASE_URL , {fetchWithCredentials} from  "../utils/api";
+import  {fetchWithCredentials} from  "../utils/api";
 
 const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
@@ -10,7 +10,7 @@ const useSendMessage = () => {
   const sendMessage = async (message) => {
     setLoading(true);
     try {
-      const res = await fetchWithCredentials(`${BASE_URL}/api/messages/send/${selectedConversation._id}`, {
+      const res = await fetchWithCredentials(`/api/messages/send/${selectedConversation._id}`, {
         method: "POST",
         body: JSON.stringify({ message }),
       });

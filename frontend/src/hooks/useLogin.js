@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
-import BASE_URL , { fetchWithCredentials } from "../utils/api";
+import  { fetchWithCredentials } from "../utils/api";
 
 
 const useLogin = () => {
@@ -11,7 +11,7 @@ const useLogin = () => {
   const login = async (username, password) => {
     setLoading(true);
     try {
-      const res = await fetchWithCredentials(`${BASE_URL}/api/auth/login`, {
+      const res = await fetchWithCredentials("/api/auth/login", {
         method: "POST",
         body: JSON.stringify({ username, password }),
       });

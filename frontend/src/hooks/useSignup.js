@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
-import BASE_URL , { fetchWithCredentials } from "../utils/api";
+import  { fetchWithCredentials } from "../utils/api";
 
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
@@ -10,7 +10,7 @@ const useSignup = () => {
   const signup = async (formData) => {
     setLoading(true);
     try {
-      const res = await fetchWithCredentials(`${BASE_URL}/api/auth/signup`, {
+      const res = await fetchWithCredentials("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify(formData),
       });
