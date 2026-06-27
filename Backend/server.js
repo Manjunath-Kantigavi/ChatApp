@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
@@ -13,11 +14,21 @@ import connectToMongoDB from "./db/connectToMongoDB.js";
 dotenv.config();
 
 const app = express();
+
+const FRONTEND_URL = process.env.FRONTEND_URL || "https://chat-app-gamma-liard.vercel.app";
+
+app.use(cors({
+  origin: FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
+
+
 const server = createServer(app);
 
 export const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:3000"],
+    origin: FRONTEND_URL,
     methods: ["GET", "POST"],
   },
 });
