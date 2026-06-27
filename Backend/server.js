@@ -37,7 +37,11 @@ export const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
     methods: ["GET", "POST"],
-    credentials: true,     
+    credentials: true,
+    allowEIO3: true,                        //  backwards compatibility
+    transports: ["polling", "websocket"],   //  match client order
+    pingTimeout: 60000,                     //  longer timeout for free tier
+    pingInterval: 25000,     
   },
 });
 

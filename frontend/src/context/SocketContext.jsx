@@ -35,7 +35,7 @@ export const SocketContextProvider = ({ children }) => {
     const newSocket = io(SOCKET_URL, {
       query: { userId: authUser._id },
       withCredentials: true,
-      transports: ["websocket", "polling"], //  try websocket first, fallback to polling
+      transports: ["polling", "websocket"], //  try websocket first, fallback to polling
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
