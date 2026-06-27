@@ -1,4 +1,4 @@
-import Sidebar from '../../components/sidebar/Sidebar';
+import Sidebar from  '../../components/sidebar/Sidebar';
 import MessageContainer from '../../components/messages/MessageContainer';
 import useConversation from '../../zustand/useConversation';
 import { useEffect, useState } from 'react';

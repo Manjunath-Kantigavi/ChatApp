@@ -4,15 +4,25 @@ import useConversation from "../zustand/useConversation";
 
 const useListenMessages = () => {
   const { socket } = useSocketContext();
-  const { messages, setMessages } = useConversation();
+  const { messages, setMessages, selectedConversation } = useConversation();
 
   useEffect(() => {
-    socket?.on("newMessage", (newMessage) => {
-      setMessages([...messages, newMessage]);
-    });
+    if (!socket) return;
 
-    return () => socket?.off("newMessage");
-  }, [socket, messages, setMessages]);
+    const handleNewMessage = (newMessage) => {
+      // only add if it's from the currently selected conversation
+      if (
+        newMessage.senderId === selectedConversation?._id ||
+        newMessage.receiverId === selectedConversation?._id
+      ) {
+        setMessages([...messages, newMessage]);
+      }
+    };
+
+    socket.on("newMessage", handleNewMessage);
+
+    return () => socket.off("newMessage", handleNewMessage);
+  }, [socket, messages, setMessages, selectedConversation?._id]);
 };
 
 export default useListenMessages;
