@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
+import BASE_URL from "../utils/api";
 
 const useGetConversations = () => {
   const [loading, setLoading] = useState(false);
@@ -12,8 +13,8 @@ const useGetConversations = () => {
       setLoading(true);
       try {
         const [usersRes, convsRes] = await Promise.all([
-          fetch("/api/users"),
-          fetch("/api/conversations"),
+          fetch(`${BASE_URL}/api/users`),
+          fetch(`${BASE_URL}/api/conversations`),
         ]);
 
         const users = await usersRes.json();
